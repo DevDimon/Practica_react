@@ -36,9 +36,7 @@ const Survey = () => {
                 )
             })
             }
-            <div>
-                <button onClick={endSurvey}>Закончить опрос</button>
-            </div>
+            <div className="button-wrap"><div className="button" onClick={endSurvey}>Закончить опрос</div></div>
         </>
     )
 }
