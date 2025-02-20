@@ -19,8 +19,6 @@
   font-weight: 500;
 }
 
-
-
 .radioGroup, .checkGroup {
   display:flex;
   flex-direction: row;
@@ -119,4 +117,13 @@ input[type=text] {
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+
+input[type=file] {
+  display: none;
+}
+
+.error {
+  color: var(--red);
+  margin-top: 3rem;
 }

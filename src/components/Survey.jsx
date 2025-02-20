@@ -4,39 +4,52 @@ import QRadio from "./QRadio"
 import QSelect from "./QSelect"
 import QText from "./QText"
 
-const Survey = () => {
+const Survey = (props) => {
+
+    const data = props.data
 
     let answers = {}
 
     const endSurvey = () => {
-        // console.log("Нажал кнопку")
+        const jsonString = JSON.stringify(answers, null, 2);
+        const blob = new Blob([jsonString], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "answers.json";
+        link.click();
+        URL.revokeObjectURL(url);
     }
 
     const updateAnswers = (ans) => {
-        answers = {...answers, ...ans}
+        answers = { ...answers, ...ans }
         console.log(answers)
     }
 
     return (
         <>
-            <hr/>
+            <hr />
             <h2>{data.title}</h2>
             <h3>{data.description}</h3>
-            <hr/>
+            <hr />
             {
-            data.questions.map((q)=>{
-                return (
-                    <div key={q.id}>
-                        <div className = "qTitle">{q.id}.{q.text}</div>   
-                        {q.type == "text"       &&  <QText question = {q} onAnswer = {updateAnswers} />}
-                        {q.type == "radio"      &&  <QRadio question = {q}  onAnswer = {updateAnswers} />}
-                        {q.type == "checkbox"   &&  <QCheckbox question = {q}  onAnswer = {updateAnswers} />}
-                        {q.type == "select"     &&  <QSelect question = {q}  onAnswer = {updateAnswers} />}
-                    </div>
-                )
-            })
+                data.questions.map((q) => {
+                    return (
+                        <div key={q.id}>
+                            <div className="qTitle">{q.id}.{q.text}</div>
+                            {q.type == "text" && <QText question={q} onAnswer={updateAnswers} />}
+                            {q.type == "radio" && <QRadio question={q} onAnswer={updateAnswers} />}
+                            {q.type == "checkbox" && <QCheckbox question={q} onAnswer={updateAnswers} />}
+                            {q.type == "select" && <QSelect question={q} onAnswer={updateAnswers} />}
+                        </div>
+                    )
+                })
             }
-            <div className="button-wrap"><div className="button" onClick={endSurvey}>Закончить опрос</div></div>
+            <div className="button-wrap">
+                <div className="button" onClick={endSurvey}>
+                    Закончить опрос и скачать файл с ответами
+                </div>
+            </div>
         </>
     )
 }
